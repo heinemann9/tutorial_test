@@ -1,4 +1,5 @@
 import './globals.css'
+import Nav from './components/Nav'
 
 export const metadata = {
   title: 'Vercel 배포 따라하기 데모',
@@ -8,7 +9,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body
+        style={{
+          margin: 0,
+          minHeight: '100vh',
+          background: 'linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%)',
+        }}
+      >
+        <Nav />
+        {children}
+      </body>
     </html>
   )
 }
