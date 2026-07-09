@@ -1,7 +1,16 @@
-export default function Home() {
+import { supabase } from '@/lib/supabase'
+
+export default async function Home() {
   const teamName = process.env.NEXT_PUBLIC_TEAM_NAME
   const isSet = Boolean(teamName)
   const displayName = isSet ? `${teamName} 사이트` : '우리 팀 사이트'
+
+  const hasSupabaseEnv = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )
+  const { data: notices } = hasSupabaseEnv
+    ? await supabase.from('notices').select('*').order('created_at', { ascending: false })
+    : { data: null }
 
   return (
     <main
@@ -66,6 +75,35 @@ export default function Home() {
         <p style={{ color: '#94a3b8', fontSize: 12, marginTop: 24 }}>
           <code>NEXT_PUBLIC_TEAM_NAME</code> 값을 바꾸고 재배포하면 위 이름이 바뀝니다.
         </p>
+
+        <hr style={{ margin: '28px 0', border: 0, borderTop: '1px solid #e2e8f0' }} />
+
+        <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, textAlign: 'left' }}>공지사항</h2>
+
+        {!hasSupabaseEnv ? (
+          <p style={{ color: '#94a3b8', fontSize: 13, marginTop: 12, textAlign: 'left' }}>
+            아직 Supabase 연결 전입니다. 환경변수를 넣고 재배포하면 여기에 데이터가 표시됩니다.
+          </p>
+        ) : notices?.length ? (
+          <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0 0', textAlign: 'left' }}>
+            {notices.map((n) => (
+              <li
+                key={n.id}
+                style={{
+                  padding: '12px 0',
+                  borderBottom: '1px solid #f1f5f9',
+                }}
+              >
+                <strong style={{ fontSize: 14 }}>{n.title}</strong>
+                <p style={{ color: '#64748b', fontSize: 13, margin: '4px 0 0' }}>{n.content}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p style={{ color: '#94a3b8', fontSize: 13, marginTop: 12, textAlign: 'left' }}>
+            아직 등록된 공지사항이 없습니다.
+          </p>
+        )}
       </div>
     </main>
   )
