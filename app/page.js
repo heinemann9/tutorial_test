@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <main
       style={{
-        minHeight: '100vh',
+        minHeight: 'calc(100vh - 72px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -25,34 +25,35 @@ export default async function Home() {
       <div
         style={{
           width: '100%',
-          maxWidth: 420,
+          maxWidth: 460,
           background: '#fff',
-          borderRadius: 16,
+          borderRadius: 20,
           border: '1px solid #e2e8f0',
-          boxShadow: '0 4px 24px rgba(15, 23, 42, 0.06)',
-          padding: '40px 32px',
+          boxShadow: '0 12px 40px rgba(15, 23, 42, 0.08)',
+          padding: '44px 36px',
           textAlign: 'center',
         }}
       >
         <div
           style={{
-            width: 48,
-            height: 48,
-            margin: '0 auto 20px',
-            borderRadius: 12,
+            width: 56,
+            height: 56,
+            margin: '0 auto 22px',
+            borderRadius: 16,
             background: 'linear-gradient(135deg, #6366f1 0%, #3b82f6 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: '#fff',
             fontWeight: 800,
-            fontSize: 14,
+            fontSize: 16,
+            boxShadow: '0 8px 16px rgba(99, 102, 241, 0.25)',
           }}
         >
           VS
         </div>
 
-        <h1 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>{displayName}</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0 }}>{displayName}</h1>
         <p style={{ color: '#64748b', fontSize: 14, marginTop: 8 }}>
           Vercel 배포 따라하기 데모 페이지
         </p>
@@ -78,7 +79,28 @@ export default async function Home() {
 
         <hr style={{ margin: '28px 0', border: 0, borderTop: '1px solid #e2e8f0' }} />
 
-        <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0, textAlign: 'left' }}>공지사항</h2>
+        <h2
+          style={{
+            fontSize: 16,
+            fontWeight: 700,
+            margin: 0,
+            textAlign: 'left',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <span
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: 999,
+              background: '#6366f1',
+              display: 'inline-block',
+            }}
+          />
+          공지사항
+        </h2>
 
         {!hasSupabaseEnv ? (
           <p style={{ color: '#94a3b8', fontSize: 13, marginTop: 12, textAlign: 'left' }}>
@@ -90,8 +112,10 @@ export default async function Home() {
               <li
                 key={n.id}
                 style={{
-                  padding: '12px 0',
-                  borderBottom: '1px solid #f1f5f9',
+                  padding: '14px 16px',
+                  marginBottom: 8,
+                  borderRadius: 12,
+                  background: '#f8fafc',
                 }}
               >
                 <strong style={{ fontSize: 14 }}>{n.title}</strong>
