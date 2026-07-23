@@ -19,11 +19,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // 2) 환경변수 확인
+  // 2) 환경변수 확인 (어떤 값이 비었는지 이름만 리포트 — 값은 노출 안 함)
   const { GMAIL_USER, GMAIL_APP_PASSWORD, MAIL_TO } = process.env;
-  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+  const missing: string[] = [];
+  if (!GMAIL_USER) missing.push("GMAIL_USER");
+  if (!GMAIL_APP_PASSWORD) missing.push("GMAIL_APP_PASSWORD");
+  if (missing.length > 0) {
     return NextResponse.json(
-      { error: "GMAIL_USER / GMAIL_APP_PASSWORD 환경변수가 설정되지 않았습니다." },
+      {
+        error: "환경변수 누락",
+        missing,
+        // 값이 아닌 '설정 여부'와 길이만 노출 (디버그용)
+        present: {
+          GMAIL_USER: Boolean(GMAIL_USER),
+          GMAIL_APP_PASSWORD: Boolean(GMAIL_APP_PASSWORD),
+          GMAIL_APP_PASSWORD_length: GMAIL_APP_PASSWORD?.length ?? 0,
+          MAIL_TO: Boolean(MAIL_TO),
+          CRON_SECRET: Boolean(process.env.CRON_SECRET),
+        },
+      },
       { status: 500 }
     );
   }
