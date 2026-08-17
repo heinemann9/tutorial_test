@@ -1,4 +1,9 @@
 import { supabase } from '@/lib/supabase'
+import NoticeWriter from '@/app/components/NoticeWriter'
+
+// 공지를 새로 쓰면 바로 목록에 보이도록 매 요청마다 다시 조회한다.
+// (이 줄이 없으면 빌드 시점 데이터가 고정되어 새 글이 안 보인다.)
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const teamName = process.env.NEXT_PUBLIC_TEAM_NAME
@@ -128,6 +133,8 @@ export default async function Home() {
             아직 등록된 공지사항이 없습니다.
           </p>
         )}
+
+        {hasSupabaseEnv ? <NoticeWriter /> : null}
       </div>
     </main>
   )
